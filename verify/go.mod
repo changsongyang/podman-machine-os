@@ -2,8 +2,6 @@ module github.com/containers/podman-machine-os
 
 go 1.24.0
 
-toolchain go1.24.12
-
 require (
 	github.com/onsi/ginkgo/v2 v2.28.1
 	github.com/onsi/gomega v1.39.1
