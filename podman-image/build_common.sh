@@ -104,6 +104,9 @@ PACKAGES=(
 
     # cpp for buildah.in support
     cpp
+
+    # git-core for Containerfile `ADD <gitrepo>` clone feature
+    git-core
 )
 
 dnf install -y "${PACKAGES[@]}"
