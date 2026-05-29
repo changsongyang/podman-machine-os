@@ -16,7 +16,7 @@ case "${PODMAN_PR_NUM}" in
 esac
 
 # koji tags prepend "f" to the release (rpm --eval)
-FEDORA_VERSION="f"$(podman run --rm "$FCOS_BASE_IMAGE" rpm --eval '%{?fedora}')
+FEDORA_VERSION="f"$(podman run --cgroups=disabled --rm "$FCOS_BASE_IMAGE" rpm --eval '%{?fedora}')
 export FEDORA_VERSION
 
 mkdir -p ./rpms
@@ -84,6 +84,8 @@ echo "Re-Chunking to make incremental upgrades more efficient"
 rpm-ostree compose build-chunked-oci \
         --bootc --from "${FULL_IMAGE_NAME_ARCH}" \
         --output "oci-archive:${OUTDIR}/${DISK_IMAGE_NAME}"
+
+echo "getenforce $(getenforce)"
 
 echo "Transforming OCI image into disk image"
 # Get supported CoreOS platforms for this architecture and convert space-separated to comma-separated
