@@ -92,6 +92,13 @@ else
     dnf install --best -y podman
 fi
 
+curl --fail -o /etc/yum.repos.d/netavark-release-copr.repo https://copr.fedorainfracloud.org/coprs/packit/containers-netavark-${NETAVARK_PR_NUM}/repo/fedora-rawhide/packit-containers-netavark-${NETAVARK_PR_NUM}-fedora-rawhide.repo
+curl --fail -o /etc/pki/rpm-gpg/netavark-release-copr.gpg https://download.copr.fedorainfracloud.org/results/packit/containers-netavark-${NETAVARK_PR_NUM}/pubkey.gpg
+curl --fail -o /etc/yum.repos.d/aardvark-dns-release-copr.repo https://copr.fedorainfracloud.org/coprs/packit/containers-aardvark-dns-${AARDVARK_DNS_PR_NUM}/repo/fedora-rawhide/packit-containers-aardvark-dns-${AARDVARK_DNS_PR_NUM}-fedora-rawhide.repo
+curl --fail -o /etc/pki/rpm-gpg/aardvark-dns-release-copr.gpg https://download.copr.fedorainfracloud.org/results/packit/containers-aardvark-dns-${AARDVARK_DNS_PR_NUM}/pubkey.gpg
+
+dnf install --best -y netavark aardvark-dns
+
 # Install subscription-manager and enable service to refresh certificates
 # Install qemu-user-static for bootc/user emulation
 # Install device-mapper (this satisfies the deps for qemu-user-static
@@ -99,6 +106,11 @@ fi
 dnf install -y --setopt=install_weak_deps=false \
     subscription-manager device-mapper qemu-user-static-aarch64 qemu-user-static-x86
 
+# Set a custom variant to mark this image as our own for both fedora countme
+# tracking and our own podman info output.
+# https://github.com/podman-container-tools/podman-machine-os/issues/253
+sed -i 's/VARIANT=.*/VARIANT="Podman Machine OS"/g' /usr/lib/os-release
+sed -i 's/VARIANT_ID=.*/VARIANT_ID=podman-machine-os/g' /usr/lib/os-release
 
 # Package list to install
 PACKAGES=(
