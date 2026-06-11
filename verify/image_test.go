@@ -225,6 +225,18 @@ var _ = Describe("run image tests", Ordered, ContinueOnFailure, func() {
 			Expect(sshSession.outputToString()).To(And(ContainSubstring("unqualified-search-registries"), ContainSubstring("helper_binaries_dir")))
 		})
 
+		It("verify custom os-release variant", func() {
+			sshSession, err := mb.setCmd([]string{"machine", "ssh", machineName, "cat", "/etc/os-release"}).run()
+			Expect(err).ToNot(HaveOccurred())
+			Expect(sshSession).To(Exit(0))
+			Expect(sshSession.outputToString()).To(And(ContainSubstring(`VARIANT="Podman Machine OS"`), ContainSubstring(`VARIANT_ID=podman-machine-os`)))
+
+			archSession, err := mb.setCmd([]string{"info", "--format", "{{.Host.Distribution.Variant}}"}).run()
+			Expect(err).ToNot(HaveOccurred())
+			Expect(archSession).To(Exit(0))
+			Expect(archSession.outputToString()).To(Equal("podman-machine-os"))
+		})
+
 		It("check podman coreos image version", func() {
 			skipIfVmtype(WSLVirt, "wsl does not use ostree updates")
 			// set by podman-rpm-info-vars.sh

@@ -99,6 +99,11 @@ fi
 dnf install -y --setopt=install_weak_deps=false \
     subscription-manager device-mapper qemu-user-static-aarch64 qemu-user-static-x86
 
+# Set a custom variant to mark this image as our own for both fedora countme
+# tracking and our own podman info output.
+# https://github.com/podman-container-tools/podman-machine-os/issues/253
+sed -i 's/VARIANT=.*/VARIANT="Podman Machine OS"/g' /usr/lib/os-release
+sed -i 's/VARIANT_ID=.*/VARIANT_ID=podman-machine-os/g' /usr/lib/os-release
 
 # Package list to install
 PACKAGES=(
