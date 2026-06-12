@@ -5,7 +5,7 @@
 # 2. Both PODMAN_VERSION and PODMAN_PR_NUM will have to be updated manually on release
 # PRs.
 # 3. If PODMAN_PR_NUM is empty, rpms will be fetched from the `rhcontainerbot/podman-next` copr.
-export PODMAN_VERSION="6.0.0-dev"
+export PODMAN_VERSION="6.1.0-dev"
 export PODMAN_PR_NUM=""
 
 # Temporary work around due the fact that podman 6 needs the new nv/av 2.0 which is also not in
