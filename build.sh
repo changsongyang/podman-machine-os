@@ -115,6 +115,8 @@ for hypervisor in ${ARCH_TO_COREOS_PLATFORMS[$CPU_ARCH]}; do
   $ZSTD_CMD "$newfilename"
 done
 
+mv "${DISK_IMAGE_NAME}" "${DISK_IMAGE_NAME}.${CPU_ARCH}.tar"
+
 popd
 
 # Wait for the WSL build to finish

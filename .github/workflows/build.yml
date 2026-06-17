@@ -40,7 +40,6 @@ jobs:
       - name: Build images
         run: |
           ./build.sh
-          mv $OUTDIR/podman-machine $OUTDIR/podman-machine.${{ matrix.os.arch }}.tar
 
       # just for debugging, i.e. when mounting failed.
       - name: dmesg
