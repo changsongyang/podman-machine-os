@@ -89,8 +89,6 @@ rpm-ostree compose build-chunked-oci \
         --bootc --from "${FULL_IMAGE_NAME_ARCH}" \
         --output "oci-archive:${OUTDIR}/${DISK_IMAGE_NAME}"
 
-echo "getenforce $(getenforce)"
-
 echo "Transforming OCI image into disk image"
 # Get supported CoreOS platforms for this architecture and convert space-separated to comma-separated
 # (WSL is built separately and not included here)
@@ -116,6 +114,8 @@ for hypervisor in ${ARCH_TO_COREOS_PLATFORMS[$CPU_ARCH]}; do
   # Compress the file
   $ZSTD_CMD "$newfilename"
 done
+
+mv "${DISK_IMAGE_NAME}" "${DISK_IMAGE_NAME}.${CPU_ARCH}.tar"
 
 popd
 
