@@ -7,6 +7,13 @@ on:
       # Note for other branches (i.e. release branches we do not want pushes by default), only tags should rebuild images there.
     tags:
       - 'v*'
+  schedule:
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
+    # Note github recommends not running at the top of the hour to the high load which could even drop events, so use a different time.
+    # We just need daily rebuilds, at some time in the night, except on the weekend as there is likely nobody
+    # around to fix the image if it builded something that breaks podman CI all of the sudden.
+    # cron runs also only happen on the default branch (main) which is what we want here.
+    - cron: "25 1 * * 1-5"
 
 permissions: {}
 
