@@ -6,7 +6,7 @@ on:
 permissions: {}
 
 env:
-  PODMAN_INSTALL_VERSION: 5.8.2
+  PODMAN_INSTALL_VERSION: v5.8.2
 
 jobs:
   build:
@@ -143,7 +143,7 @@ jobs:
       - name: Install podman
         run: |
           curl --fail -L \
-             https://github.com/containers/podman/releases/download/v$PODMAN_INSTALL_VERSION/podman-remote-static-linux_${{ matrix.os.goarch }}.tar.gz |
+             https://github.com/containers/podman/releases/download/$PODMAN_INSTALL_VERSION/podman-remote-static-linux_${{ matrix.os.goarch }}.tar.gz |
           tar -xvz
 
           mv bin/podman-remote-static-linux_${{ matrix.os.goarch }} bin/podman-remote
@@ -242,7 +242,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          git clone --depth 1 --branch v${PODMAN_INSTALL_VERSION} https://github.com/podman-container-tools/podman.git
+          git clone --depth 1 --branch ${PODMAN_INSTALL_VERSION} https://github.com/podman-container-tools/podman.git
           make -C podman podman-remote
           ./podman/bin/darwin/podman --version
           mkdir bin
