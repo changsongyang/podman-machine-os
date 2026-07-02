@@ -32,6 +32,21 @@ and/or use the pre-commit hook: https://github.com/renovatebot/pre-commit-hooks
     "**/docs/**",
   ],
 
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.github/workflows/build.yml$/",
+      ],
+      "matchStrings": [
+        "PODMAN_INSTALL_VERSION:\\s+(?<currentValue>.+)\\s*"
+      ],
+      "depNameTemplate": "podman-container-tools/podman",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver-coerced",
+    }
+  ],
+
   "addLabels": ["release-note-none"],
 
   /* update the custom-coreos-disk-images submodule */
