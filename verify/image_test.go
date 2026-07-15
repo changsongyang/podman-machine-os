@@ -253,12 +253,12 @@ var _ = Describe("run image tests", Ordered, ContinueOnFailure, func() {
 			if index >= 0 {
 				imageVersion = version[:index]
 			}
-			// verify the rpm-ostree image inside uses the proper podman image reference
-			sshSession, err := mb.setCmd([]string{"machine", "ssh", machineName, "sudo rpm-ostree status --json | jq -r '.deployments[0].\"container-image-reference\"'"}).run()
+			// verify the bootc image inside uses the proper podman image reference
+			sshSession, err := mb.setCmd([]string{"machine", "ssh", machineName, "sudo bootc status --json | jq -r '.status.booted.image.image | .transport + \" \" +  .image'"}).run()
 			Expect(err).ToNot(HaveOccurred())
 			Expect(sshSession).To(Exit(0))
 			Expect(sshSession.outputToString()).
-				To(Equal("ostree-unverified-registry:quay.io/podman/machine-os:" + imageVersion))
+				To(Equal("registry quay.io/podman/machine-os:" + imageVersion))
 
 			// TODO: there is no 5.5 in the copr yet as podman main would need to be bumped.
 			// But in order to do that it needs working machine images, catch-22.
